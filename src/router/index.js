@@ -15,7 +15,13 @@ const routes = [
     path:'/pokedex',
     name:'pokedex',
     component: PokedexView
-  }
+  },
+  {
+    path: '/moreInformations/:idPokemon',
+    name: 'MoreInfos',
+    component: () => import('../views/MoreInfoView.vue')
+  },
+
 ]
 
 const router = new VueRouter({

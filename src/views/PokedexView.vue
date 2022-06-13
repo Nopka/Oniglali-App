@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Total Number of pokemon : {{NumberOfPokemon}}</h1>
-    <!-- <button class="btn btn-warning" @click="this.PopulatePokedex">Charger les pokemons</button> -->
     <br>
     <br>
     <div class="cards-container">
@@ -16,7 +15,12 @@
               </div>
             </div>
             <div class="moreInfo-container">
-              <button class="btn btn-info infobutton">More Informations</button>
+              <router-link 
+                :to="{name:'MoreInfos',params:{idPokemon: pokemon.id}}"
+                class="btn btn-info infobutton"
+              >
+                More Informations
+              </router-link>
             </div>
           </div>
       </div>
@@ -31,17 +35,18 @@ export default {
   name: 'Pokedex',
   data(){
     return {
-      NumberOfPokemon:0,
+      NumberOfPokemon:this.$store.state.NumberOfPokemons,
       complete_pokedex:[],
     }
   },
   async created(){
     await this.getNumberOfPokemon();
-    if (this.$store.state.Pokedex.length === this.$store.state.NumberOfPokemon) {
+    if (this.$store.state.Pokedex.length != this.$store.state.NumberOfPokemons) {
+      console.log("taille du tableau dans le store : "+this.$store.state.Pokedex.length+", et nombre valeur de NumberOfPokemons dans le store : "+ this.$store.state.NumberOfPokemons)
       await this.PopulatePokedex();
+    } else{
+      console.log("pas besoin d'appeller l'api !");
     }
-  },
-  components: {
   },
   methods:{
     async getNumberOfPokemon(){
@@ -50,7 +55,6 @@ export default {
         .then((response) => {
           this.$store.commit('setNumberOfPokemon',response.data.count);
           this.NumberOfPokemon = response.data.count;
-
         })
     },
     async PopulatePokedex(){
@@ -70,9 +74,9 @@ export default {
           })
           .catch((error) => {
             if (axios.isAxiosError(error)) {
-              handleAxiosError(error);
+              alert(error);
             } else {
-              handleUnexpectedError(error);
+              alert(error);
             }
           });
           
@@ -104,60 +108,4 @@ export default {
     display: flex;
     justify-content: center;
   }
-  
-  .normal{
-    background-color: #a8a878;
-  }
-  .fighting{
-    background-color: #bf2f28;
-  }
-  .flying{
-    background-color: #a890ef;
-  }
-  .poison{
-    background-color: #a03fa0;
-  }
-  .ground{
-    background-color: #e0bf67;
-  }
-  .rock{
-    background-color: #b89f38;
-  }
-  .bug{
-    background-color: #a7b821;
-  }
-  .ghost{
-    background-color: #705798;
-  }
-  .steel{
-    background-color: #b8b7cf;
-  }
-  .fire{
-    background-color: #f08031;
-  }
-  .water{
-    background-color: #6890ef;
-  }
-  .grass{
-    background-color: #77c850;
-  }
-  .electric{
-    background-color: #f7d030;
-  }
-  .psychic{
-    background-color: #f75888;
-  }
-  .ice{
-    background-color: #97d8d8;
-  }
-  .dragon{
-    background-color: #6f38f7;
-  }
-  .dark{
-    background-color: #705848;
-  }
-  .fairy{
-    background-color: #fdbae9;
-  }
-
 </style>

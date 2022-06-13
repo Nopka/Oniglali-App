@@ -12,7 +12,7 @@ export default new Vuex.Store({
   plugins:[vuexLocal.plugin],
   state: {
     NumberOfPokemons:0,
-    Pokedex:{},
+    Pokedex:[],
   },
   getters: {
   },
