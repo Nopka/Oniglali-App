@@ -43,7 +43,7 @@ export default {
     await this.getNumberOfPokemon();
     if (this.$store.state.Pokedex.length != this.$store.state.NumberOfPokemons) {
       console.log("taille du tableau dans le store : "+this.$store.state.Pokedex.length+", et nombre valeur de NumberOfPokemons dans le store : "+ this.$store.state.NumberOfPokemons)
-      await this.PopulatePokedex();
+      this.PopulatePokedex();
     } else{
       console.log("pas besoin d'appeller l'api !");
     }
@@ -60,7 +60,7 @@ export default {
     async PopulatePokedex(){
       console.log('function populatePokedex launched');
       for (let pokeId = 1; pokeId <= this.NumberOfPokemon; pokeId++) {
-        axios // await devant axios, remettre si jamais les pokemons ne sont pas trié
+        await axios // await devant axios, remettre si jamais les pokemons ne sont pas trié
           .get('https://pokeapi.co/api/v2/pokemon/'+pokeId)
           .then((response) => {
             console.log(response)
