@@ -82,8 +82,8 @@ export default {
           
       }
       // trier le tableau complete_pokedex par id de pokemon
-      this.complete_pokedex = this.sort_by_key(this.complete_pokedex,'id');
-      this.$store.commit('addToPokedex',this.complete_pokedex);
+      var temp = this.sort_by_key(this.complete_pokedex,'id');
+      this.$store.commit('addToPokedex',temp);
       console.log('function populatePokedex ended');
     },
     sort_by_key(array, key){
