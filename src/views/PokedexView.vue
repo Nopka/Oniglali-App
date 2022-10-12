@@ -60,7 +60,7 @@ export default {
     async PopulatePokedex(){
       console.log('function populatePokedex launched');
       for (let pokeId = 1; pokeId <= this.NumberOfPokemon; pokeId++) {
-        await axios
+        axios // await devant axios, remettre si jamais les pokemons ne sont pas trié
           .get('https://pokeapi.co/api/v2/pokemon/'+pokeId)
           .then((response) => {
             console.log(response)
@@ -81,8 +81,16 @@ export default {
           });
           
       }
+      // trier le tableau complete_pokedex par id de pokemon
+      this.complete_pokedex = this.sort_by_key(this.complete_pokedex,'id');
       this.$store.commit('addToPokedex',this.complete_pokedex);
       console.log('function populatePokedex ended');
+    },
+    sort_by_key(array, key){
+      return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
     }
   }
 }
